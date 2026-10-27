@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DormEase | Hostel Services</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#" data-page="dashboard"><span class="brand-mark">D</span><span>DormEase<small>HOSTEL SERVICES</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav>
+      <button class="nav-item active" data-page="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav-item" data-page="laundry"><span>◌</span> Laundry tracking</button>
+      <button class="nav-item" data-page="cleaning"><span>⌂</span> Cleaning schedule</button>
+      <button class="nav-item" data-page="issues"><span>✳</span> Report an issue</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="help-card"><span class="help-icon">?</span><b>Need a hand?</b><p>Keep your hostel services organised in one place.</p></div>
+      <div class="profile"><div class="avatar">R</div><div><b>Rupal</b><small>Student portal</small></div><span class="online-dot"></span></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="mobile-brand"><span class="brand-mark">D</span> DormEase</div><div class="breadcrumb">Workspace <span>/</span> <b id="crumb">Dashboard</b></div><div class="top-actions"><span class="today" id="todayLabel"></span><button class="icon-btn" title="Notifications" aria-label="Notifications">♧<i></i></button><div class="avatar small">R</div></div></header>
+    <section id="view" class="content"></section>
+    <footer> <span>© 2026 DormEase prototype</span><span>Made for a smoother hostel routine <b>✦</b></span></footer>
+  </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="detailDialog"><form method="dialog" class="dialog-card"><button class="close" aria-label="Close">×</button><div id="dialogContent"></div></form></dialog>
+<script src="app.js"></script>
+</body></html>
