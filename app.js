@@ -8,6 +8,13 @@ const seed={
  requests:[],issues:[]
 };
 let state=loadState(),currentPage='dashboard';
+const USER_KEY='dormEaseVisitorName_v1';
+let visitorName=localStorage.getItem(USER_KEY)||'';
+function initials(name){return (name.trim().split(/\s+/).slice(0,2).map(part=>part[0]).join('')||'D').toUpperCase()}
+function setVisitorName(name){visitorName=name.trim();localStorage.setItem(USER_KEY,visitorName);updateUserDisplay();document.getElementById('nameGate').classList.remove('visible')}
+function updateUserDisplay(){const first=visitorName.split(/\s+/)[0]||'Student';const full=visitorName||'Student';const initial=initials(full);const avatarIds=['profileAvatar','topAvatar'];avatarIds.forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=initial});const profile=document.getElementById('profileName');if(profile)profile.textContent=full;document.title='DormEase | '+first}
+function changeUser(){document.getElementById('nameGate').classList.add('visible');const input=document.getElementById('visitorName');input.value=visitorName;input.focus()}
+window.changeUser=changeUser;
 function loadState(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||structuredClone(seed)}catch(e){return JSON.parse(JSON.stringify(seed))}}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -22,7 +29,7 @@ document.getElementById('todayLabel').textContent=new Date().toLocaleDateString(
 function heading(kicker,title,desc,button=''){return `<div class="page-heading"><div><p class="eyebrow">${kicker}</p><h1>${title}</h1><p class="subtext">${desc}</p></div>${button}</div>`}
 function batchRows(){if(!state.batches.length)return `<tr><td colspan="5"><div class="empty">No laundry batches yet. Add your first batch.</div></td></tr>`;return state.batches.map(b=>`<tr><td><span class="batch-name">${esc(b.id)}</span><span class="sub-id">${prettyDate(b.date)}</span></td><td>${b.submitted}</td><td>${b.returned}</td><td>${badge(b.status)}</td><td><button class="text-link" onclick="openBatch('${esc(b.id)}')">View ↗</button></td></tr>`).join('')}
 function dashboard(){let open=state.issues.filter(i=>i.status!=='Resolved').length;let pending=state.requests.filter(r=>r.status==='Pending').length;let next=state.schedules.slice().sort((a,b)=>a.date.localeCompare(b.date))[0];let nd=next?shortDay(next.date):{day:'—',month:'TBD'};
-return `${heading('YOUR HOSTEL, SIMPLIFIED','Good evening, Rupal ✦','Here’s a quick look at your laundry and room-cleaning services.','<button class="btn btn-primary" onclick="go(&#39;laundry&#39;)">＋ Add laundry batch</button>')}
+return `${heading('YOUR HOSTEL, SIMPLIFIED',`Good evening, ${esc(visitorName.split(/\s+/)[0]||'Student')} ✦`,'Here’s a quick look at your laundry and room-cleaning services.','<button class="btn btn-primary" onclick="go(&#39;laundry&#39;)">＋ Add laundry batch</button>')}
 <div class="grid stats">
 <div class="card stat-card"><div class="stat-icon mint">◌</div><div><div class="stat-label">Laundry batches</div><div class="stat-number">${state.batches.length}</div><div class="stat-note"><strong>${state.batches.filter(b=>b.status!=='Confirmed').length}</strong> need attention</div></div></div>
 <div class="card stat-card"><div class="stat-icon lavender">⌂</div><div><div class="stat-label">Next cleaning</div><div class="stat-number" style="font-size:19px">${next?prettyDate(next.date).replace(', 2026',''):'Not set'}</div><div class="stat-note">${next?esc(next.time):'No schedule available'}</div></div></div>
@@ -69,5 +76,7 @@ function confirmBatch(id){let b=state.batches.find(x=>x.id===id),n=Number(docume
 function reportBatch(id){let b=state.batches.find(x=>x.id===id);state.issues.push({id:'ISS-'+String(Date.now()).slice(-6),category:'Laundry — missing item',batch:id,date:new Date().toISOString().slice(0,10),description:`Discrepancy reported for batch ${id}. Please check submitted and returned items.`,status:'Open'});save();document.getElementById('detailDialog').close();toast('Discrepancy logged.');render()}
 function updateRequest(id,status){let r=state.requests.find(x=>x.id===id);if(r){r.status=status;save();toast('Demo request status updated.');render()}}
 function resolveIssue(id){let i=state.issues.find(x=>x.id===id);if(i){i.status=i.status==='Resolved'?'Open':'Resolved';save();render();toast(i.status==='Resolved'?'Issue marked resolved in demo.':'Issue reopened.')}}
-// Initial render
+// Visitor name setup and initial render
+const nameForm=document.getElementById('nameForm');nameForm.addEventListener('submit',e=>{e.preventDefault();const entered=document.getElementById('visitorName').value.trim();if(entered){setVisitorName(entered);render()}});
+updateUserDisplay();if(!visitorName){document.getElementById('nameGate').classList.add('visible')}
 render();

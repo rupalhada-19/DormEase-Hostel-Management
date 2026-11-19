@@ -18,14 +18,20 @@
     </nav>
     <div class="sidebar-bottom">
       <div class="help-card"><span class="help-icon">?</span><b>Need a hand?</b><p>Keep your hostel services organised in one place.</p></div>
-      <div class="profile"><div class="avatar">R</div><div><b>Rupal</b><small>Student portal</small></div><span class="online-dot"></span></div>
+      <div class="profile"><div class="avatar" id="profileAvatar">D</div><div class="profile-info"><b id="profileName">Student</b><small>Student portal</small><button class="change-user" type="button" onclick="changeUser()">Change user</button></div><span class="online-dot"></span></div>
     </div>
   </aside>
   <main class="main">
-    <header class="topbar"><div class="mobile-brand"><span class="brand-mark">D</span> DormEase</div><div class="breadcrumb">Workspace <span>/</span> <b id="crumb">Dashboard</b></div><div class="top-actions"><span class="today" id="todayLabel"></span><button class="icon-btn" title="Notifications" aria-label="Notifications">♧<i></i></button><div class="avatar small">R</div></div></header>
+    <header class="topbar"><div class="mobile-brand"><span class="brand-mark">D</span> DormEase</div><div class="breadcrumb">Workspace <span>/</span> <b id="crumb">Dashboard</b></div><div class="top-actions"><span class="today" id="todayLabel"></span><button class="icon-btn" title="Notifications" aria-label="Notifications">♧<i></i></button><div class="avatar small" id="topAvatar">D</div></div></header>
     <section id="view" class="content"></section>
     <footer> <span>© 2026 DormEase prototype</span><span>Made for a smoother hostel routine <b>✦</b></span></footer>
   </main>
+</div>
+<div id="nameGate" class="name-gate" aria-modal="true" role="dialog">
+  <div class="name-card"><div class="brand-mark name-logo">D</div><p class="eyebrow">YOUR HOSTEL, SIMPLIFIED</p><h1>Welcome to DormEase</h1><p>Before you continue, tell us your name so we can personalise your dashboard.</p>
+    <form id="nameForm"><label for="visitorName">Your name</label><input id="visitorName" type="text" maxlength="40" placeholder="Enter your name" autocomplete="name" required><button class="btn btn-primary" type="submit">Continue to dashboard ↗</button></form>
+    <small>Your name is saved only in this browser for this demo.</small>
+  </div>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="detailDialog"><form method="dialog" class="dialog-card"><button class="close" aria-label="Close">×</button><div id="dialogContent"></div></form></dialog>
